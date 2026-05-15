@@ -6,6 +6,11 @@ public class Vehicle {
     private String vehicleType;
     private double price;
 
+    @Override
+    public String toString() {
+        return String.format("Vin: %d| Year: %d| Odometer: %d| Make: %s| Model: %s| Color: %s| Vehicle Type: %s| Price :$%.2f",vin,year,odometer,make,model,color,vehicleType,price);
+    }
+
     public Vehicle(int vin, int year, int odometer, String make, String model, String color, String vehicleType, double price) {
         this.vin = vin;
         this.year = year;
@@ -15,6 +20,7 @@ public class Vehicle {
         this.color = color;
         this.vehicleType = vehicleType;
         this.price = price;
+
 
     }
 
@@ -82,3 +88,4 @@ public class Vehicle {
         this.price = price;
     }
 }
+

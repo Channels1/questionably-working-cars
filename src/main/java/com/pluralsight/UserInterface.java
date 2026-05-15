@@ -3,16 +3,18 @@ package com.pluralsight;
 import com.sun.source.tree.WhileLoopTree;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface {
 
     Scanner uKey = new Scanner(System.in);
     //Field
-    private Dealership dealership;
+    private static Dealership dealership;
 
     private void init() {
         this.dealership = DealershipFileManager.getDealership();
+
     }
 
     private void displayVehicles(ArrayList<Vehicle> vehicles){
@@ -72,10 +74,10 @@ public class UserInterface {
                     processGetAllVehiclesRequest();
                     break;
                 case 8:
-                    processAddVehicleRequest();
+                    processAddVehicleRequest(uKey);
                     break;
                 case 9:
-                    processRemoveVehicleRequest();
+                    processRemoveVehicleRequest(uKey);
                     break;
                 case 0:
                     System.out.println("Come again real soon hehe");
@@ -115,10 +117,41 @@ public class UserInterface {
         ArrayList<Vehicle> vehicles = (ArrayList<Vehicle>) dealership.getAllVehicles();
         displayVehicles(vehicles);
     }
-    public static void processAddVehicleRequest() {
+    public static void processAddVehicleRequest(Scanner uKey) {
+        System.out.print("Enter VIN number: ");
+        int vin =uKey.nextInt();
+        System.out.print("Enter year: ");
+        int year = uKey.nextInt();
+        System.out.print("Enter make: ");
+        String make = uKey.next();
+        System.out.print("Enter model: ");
+        String model = uKey.next();
+        System.out.print("Enter color: ");
+        String color = uKey.next();
+        System.out.print("Enter odometer: ");
+        int odometer = uKey.nextInt();
+        System.out.print("Enter Vehicle type: ");
+        String vehicleType = uKey.next();
+        System.out.print("Enter price: ");
+        double price = uKey.nextDouble();
 
-    }
-    public static void processRemoveVehicleRequest() {
 
+
+        Vehicle newVehicle = new Vehicle(vin,year,odometer,make,model,color,vehicleType,price);
+        dealership.addVehicle(newVehicle);
+        System.out.println("Vehicle added!");
     }
+    public void processRemoveVehicleRequest(Scanner uKey) {
+        System.out.print("Enter VIN of vehicle to remove: ");
+        int vin = uKey.nextInt();
+        for(Vehicle vehicle : dealership.getAllVehicles()){
+            if ( vehicle.getVin()== vin ) {
+                dealership.removeVehicle(vehicle);
+                System.out.println("Vehicle removed");
+                return;
+            }
+        }
+        System.out.println("Vehicle not found");
+    }
+
 }

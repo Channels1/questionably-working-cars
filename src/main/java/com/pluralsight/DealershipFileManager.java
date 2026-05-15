@@ -6,17 +6,18 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-public record DealershipFileManager() {
+public class DealershipFileManager {
     public static Dealership getDealership() {
         Dealership dealership = new Dealership("Questionably working and existing cars","2888 not scamming road","666-777-6767");
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader("inventory.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("src/main/resources/inventory.csv"));
             String carData;
             br.readLine();
 
             while ((carData = br.readLine())!= null) {
                 String[] splitCarData = carData.split(Pattern.quote("|"));
+                if(carData.trim().isEmpty()) continue;
 
                 int vin = Integer.parseInt(splitCarData[0]);
                 int year = Integer.parseInt(splitCarData[1]);
@@ -36,7 +37,7 @@ public record DealershipFileManager() {
             System.out.println("File not found");
         }
 
-        return null;
+        return dealership;
     }
 
     public static void saveDealership(Dealership dealership){
